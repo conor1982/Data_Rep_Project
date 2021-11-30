@@ -31,6 +31,13 @@ CREATE TABLE employees(
     REFERENCES departments(deptID)
     );
 
+CREATE TABLE users(
+   userID INT NOT NULL AUTO_INCREMENT,
+   name VARCHAR(255) DEFAULT NULL,
+   password varchar(255) DEFAULT NULL,
+   PRIMARY KEY (userID)
+   );
+
 
 INSERT INTO locations (location, type, years_occupancy) VALUES ("Killarney (Head Office)", "Owned", 12);
 INSERT INTO locations (location, type, years_occupancy) VALUES ("Cork", "Leased", 1);
@@ -64,6 +71,10 @@ INSERT INTO employees (name, title, salary,dept) VALUES ("Dara Moynihan","Data Q
 INSERT INTO employees (name, title, salary,dept) VALUES ("Liam Kearney","Customer Success Lead",800000, 9);
 INSERT INTO employees (name, title, salary,dept) VALUES ("Patrick O'Sullivan","Customer Success Lead",800000, 9);
 
+INSERT INTO users (name,password) VALUES ("admin","admin");
+INSERT INTO users (name,password) VALUES ("conor","1982");
+INSERT INTO users (name,password) VALUES ("andrew","lecturer");
+INSERT INTO users (name,password) VALUES ("course","datarep");
 
 
 

@@ -49,9 +49,9 @@ emp2 = {'name': 'Peadar',
 }
 
 emp3 = {'empID':18,
-        'name': 'Peadar Lucey',
+        'name': 'Sean Shea',
         'title': 'Investment Strategy',
-        'salary':10000,
+        'salary':70000,
         'dept':3
 }
 
@@ -93,8 +93,8 @@ user2 = {'userID':'5',
 #print("find Loc By Id")
 #print(returnValue)
 #print("")
-#returnValue = orgDao.findDeptById(8)
-#print("find Dept By Id")
+#returnValue = orgDao.findDeptIDinEmp(4)
+
 #print(returnValue)
 #print("")
 #returnValue = orgDao.findEmpById(12)
@@ -107,10 +107,15 @@ user2 = {'userID':'5',
 #print(returnValue)
 #print("")
 
-#employess by dept id
-#returnValue = orgDao.getAllEmpByDept(9)
+returnvalue = orgDao.getAllDeptInLoc(1)
+print(returnvalue)
+
+#print(returnvalue)
+
+
 #print("find Dept By Id")
-#print(returnValue)
+#x = returnValue.values()
+#print(x)
 
 #returnValue = orgDao.updateLoc(loc3)
 #print(returnValue)
@@ -142,7 +147,8 @@ user2 = {'userID':'5',
 #returnValue = orgDao.updateUser(user2)
 #print(returnValue)
 
-#print('delete users')
-#returnValue = orgDao.deleteUser(5)
 
+#returnValue = orgDao.deptIdInEmployees(99)
+
+#print(returnValue)
 

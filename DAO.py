@@ -7,6 +7,7 @@ import mysql.connector
 import dbconfig as cfg
 
 
+
 #Make DAO Class 
 class OrgDAO:
 
@@ -154,9 +155,10 @@ class OrgDAO:
         values = [deptID]
         cursor.execute(sql, values)
         result = cursor.fetchone()
-        dept = self.convertDeptToDict(result)
+        dep = self.convertDeptToDict(result)
         db.close()
-        return dept       
+        return dep
+     
 
     #employees
     def findEmpById(self, empID):
@@ -166,7 +168,7 @@ class OrgDAO:
         values = [empID]
         cursor.execute(sql, values)
         result = cursor.fetchone()
-        emp = self.convertDeptToDict(result)
+        emp = self.convertEmpToDict(result)
         db.close()
         return emp  
 
@@ -190,15 +192,18 @@ class OrgDAO:
     def getAllEmpByDept(self, deptID):
         db = self.getConnection()
         cursor = db.cursor()
-        sql = 'select * from employees where dept = %s;'
+        sql = 'select dept from employees where dept = %s;'
         values = [deptID]
         cursor.execute(sql, values)
         results = cursor.fetchall()
-        returnArray = []
         
-        for result in results:
-            resultAsDict = self.convertEmpToDict(result)
-            returnArray.append(resultAsDict)
+        returnArray = []
+        for i in results:
+            returnArray.append(i[0])
+        
+        #for result in results:
+        #    resultAsDict = self.convertEmpToDict(result)
+        #    returnArray.append(resultAsDict)
         db.close()
         return returnArray
 
@@ -229,7 +234,7 @@ class OrgDAO:
             dept['dept_name'],
             dept['budget'],
             dept['location'],
-            dept['dept_ID']
+            dept['deptID']
             ]
         cursor.execute(sql, values)
         db.commit()
@@ -411,6 +416,43 @@ class OrgDAO:
                 u[colName] = value
         return u
 
+# Return info on all employees associated with a given department deptID
+    def getAllEmpInDept(self, deptID):
+        db = self.getConnection()
+        cursor = db.cursor()
+        sql = 'select dept from employees where dept = %s;'
+        values = [deptID]
+        cursor.execute(sql, values)
+        results = cursor.fetchall()
+        
+        returnArray = []
+        for i in results:
+            returnArray.append(i[0])
+        
+        #for result in results:
+        #    resultAsDict = self.convertEmpToDict(result)
+        #    returnArray.append(resultAsDict)
+        db.close()
+        return returnArray
+
+# Return info on all depts associated with a given location locID
+    def getAllDeptInLoc(self, locID):
+        db = self.getConnection()
+        cursor = db.cursor()
+        sql = 'select location from departments where location = %s;'
+        values = [locID]
+        cursor.execute(sql, values)
+        results = cursor.fetchall()
+        
+        returnArray = []
+        for i in results:
+            returnArray.append(i[0])
+        
+        #for result in results:
+        #    resultAsDict = self.convertEmpToDict(result)
+        #    returnArray.append(resultAsDict)
+        db.close()
+        return returnArray           
 
 orgDao = OrgDAO()
 

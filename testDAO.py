@@ -3,7 +3,7 @@ from DAO import orgDao
 #print('ok')
 
 # locations for test
-loc1 = {'location': 'kerry',
+loc51 = {'loc_name': 'kerry',
         'type': 'Leased',
         'years_occupancy':4,
         'locID':7
@@ -14,9 +14,10 @@ loc2 = {'location': 'galway',
         'years_occupancy':1
 }
 
-loc3 = {'locID':7,
-        'location': 'Sneem',
-        'type': 'Leased',
+loc8 = {'locID':7,
+        'location': 'space',
+        'type': 'Leajkbjkbjkbbsed',
+        'jj':'hh',
         'years_occupancy':3
 }
 # departments for test
@@ -67,8 +68,9 @@ user2 = {'userID':'5',
 }
 
 # Insert Into Test
-#returnValue = orgDao.createLocation(loc1)
-#print(returnValue)
+returnValue = orgDao.createLocation(loc51)
+print(returnValue)
+
 #returnValue = orgDao.createLocation(loc2)
 #print(returnValue)
 #returnValue = orgDao.createDepartment(dept1)
@@ -107,8 +109,8 @@ user2 = {'userID':'5',
 #print(returnValue)
 #print("")
 
-returnvalue = orgDao.getAllDeptInLoc(1)
-print(returnvalue)
+#returnvalue = orgDao.getAllDeptInLoc(1)
+#print(returnvalue)
 
 #print(returnvalue)
 

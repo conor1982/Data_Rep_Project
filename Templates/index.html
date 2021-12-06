@@ -1,11 +1,973 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html lang="en">
+
 <head>
-	<title></title>
+   <title>{{ title }}</title>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <!-- CSS only -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+   
+   <style>
+   * {font-family: "Poppins", sans-serif;
+	  
+   
+   .center {
+			margin: auto;
+			width: 60%;
+			height: 200px;
+			border: 5px solid #FFFF00;
+			padding: 10px;
+			}
+
+	.button-container-div {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #ff8899;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+   
+   </style>
+   
 </head>
-<body>
 
-    hello
+<body style="background:#0a0346">
+	<br>
+	<br>
+	<br>
 
+   <!-- Company Title -->
+   <div style="width:440px; margin:0 auto;">
+   <br>
+      <h2 style="color:white"> Organisation CRUD App</h2>
+   </div>
+   <br>
+   <br>
+
+  
+   <!-- Logged In As/Logout Button Banner -->
+   <div style="width:500px; margin:0 auto; text-align:right;">
+      <table id="logged-in-table" class="table table-default">
+         <thead class="thead-dark">
+            <tr>
+               <td>
+                  <h4  style="text-align:left;color:white">Logged in | {{ name }} |</h4>
+               </td>
+               <td>
+                  <form id="logout-form" action="#">
+                     <input id="logout-button" type="submit" class="btn btn-danger" value="Logout" />
+                  </form>
+               </td>
+            </tr>
+         </thead>
+      </table>
+   </div>
+   
+   <br>
+   <br>
+   
+      <!-- Form for creating new and updating existing location data -->
+   <div id="createUpdateLoc" style="display:none">
+      <div style="width:900px; margin:0 auto;">
+         <h2 id="titleCreateLoc" style="color:white">Create Location</h2>
+         <h2 id="titleUpdateLoc" style="color:white">Update Location</h2>
+         <button onclick="showHome()" type="button" class="btn btn-primary">Home</button>
+         <button onclick="showLocDisplay()" type="button" class="btn btn-success">All Locations</button>
+         <table id="createUpdateLocForm" class="table table-default">
+            
+            <tr>
+               <th scope="col" style="color:white">LocID</th>
+               <td><input type="text" class="form-control" name="locID" placeholder="not available" readonly="readonly"></td>
+            </tr>
+            <tr>
+               <th scope="col" style="color:white">Location</th>
+               <td><input type="text" class="form-control" name="loc_name" placeholder="enter location" required></td>
+            </tr>
+            <tr>
+               <th scope="col" style="color:white">Type</th>
+               <td><input type="text" class="form-control" name="type" placeholder="enter type" required></td>
+            </tr>	
+            <tr>
+               <th scope="col" style="color:white">Occupancy (Yrs)</th>
+               <td><input type="number" class="form-control" name="years_occupancy" placeholder="enter Occupancy (Yrs)" required></td>
+            </tr>
+			<tr>			
+        </table>
+              
+            <button id="createLoc" onclick="doCreateLoc()" type="button" class="btn btn-success">Create</button>
+            <button id="updateLoc" onclick="doUpdateLoc()" type="button" class="btn btn-info">Update</button>
+       
+      </div>
+   </div>
+
+   <!-- Form for creating new and updating existing department data -->
+   <div id="createUpdateDept" style="display:none">
+      <div style="width:900px; margin:0 auto;">
+         <h2 id="titleCreateDept" style="color:white">Create Department</h2>
+         <h2 id="titleUpdateDept" style="color:white">Update Department</h2>
+         <button onclick="showHome()" type="button" class="btn btn-primary">Home</button>
+         <button onclick="showDeptDisplay()" type="button" class="btn btn-success">All Departments</button>
+         <table id="createUpdateDeptForm" class="table table-default">
+            
+            <tr>
+               <th scope="col" style="color:white">DeptID</th>
+               <td><input type="text" class="form-control" name="deptID" placeholder="not available" readonly="readonly"></td>
+            </tr>
+            <tr>
+               <th scope="col" style="color:white">Name</th>
+               <td><input type="text" class="form-control" name="dept_name" placeholder="enter name" required></td>
+            </tr>
+            <tr>
+               <th scope="col" style="color:white">Budget</th>
+               <td><input type="number" class="form-control" name="budget" placeholder="enter budget" required></td>
+            </tr>
+            <tr>
+               <th scope="col" style="color:white">Location ID</th>
+               <td><input type="number" class="form-control" name="location" placeholder="enter location ID" required></td>
+            </tr>
+            <tr>
+			</table>
+              
+                  <button id="createDept" onclick="doCreateDept()" type="button" class="btn btn-success">Create</button>
+                  <button id="updateDept" onclick="doUpdateDept()"type="button" class="btn btn-info">Update</button>
+               
+      </div>
+   </div>
+
+   <!-- Form for creating new and updating existing employee data -->
+   <div id="createUpdateEmp" style="display:none">
+      <div style="width:900px; margin:0 auto;">
+         <h2 id="titleCreateEmp" style="color:white">Create Employee</h2>
+         <h2 id="titleUpdateEmp" style="color:white">Update Employee</h2>
+         <button onclick="showHome()" type="button" class="btn btn-primary">Home</button>
+         <button onclick="showEmpDisplay()" type="button" class="btn btn-success">All Employees</button>
+         <table id="createUpdateEmpForm" class="table table-default">
+            
+            <tr>
+               <th scope="col" style="color:white">EmpID</th>
+               <td><input type="text" class="form-control" name="empID" placeholder="not available" readonly="readonly"></td>
+            </tr>
+            <tr>
+               <th scope="col" style="color:white">Name</th>
+               <td><input type="text" class="form-control" name="name" placeholder="enter name" required></td>
+            </tr>
+            <tr>
+               <th scope="col" style="color:white">Title</th>
+               <td><input type="text" class="form-control" name="title" placeholder="enter job title" required></td>
+            </tr>
+            <tr>
+               <th scope="col" style="color:white">Salary</th>
+               <td><input type="number" class="form-control" name="salary" placeholder="enter salary in euro" required></td>
+            </tr>
+            <tr>
+               <th scope="col" style="color:white">Dept ID</th>
+               <td><input type="number" class="form-control" name="dept" placeholder="enter department ID number" required></td>
+            </tr>
+            <tr>
+			</table>
+              
+                  <button id="createEmp" onclick="doCreateEmp()" type="button" class="btn btn-success">Create</button>
+                  <button id="updateEmp" onclick="doUpdateEmp()" type="button" class="btn btn-info">Update</button>
+       
+      </div>
+   </div>
+   
+   <!-- Table for displaying location data -->
+   <div id="displayLoc" style="display:none" >
+      <div style="width:900px; margin:0 auto;">
+         <h2 style="color:white">Locations</h2>
+         <button onclick="showHome()" type="button" class="btn btn-primary">Home</button>
+         <button onclick="showLocCreate()" type="button" class="btn btn-success">Create Location</button>
+		 <br>
+		 <br>
+         <table id="locTable" style="color:white;text-align: center" class="table table-default table-border">
+
+               <tr>
+                  <th scope="col" style="color:white">LocID</th>
+                  <th scope="col" style="color:white">Location</th>
+                  <th scope="col" style="color:white">Type</th>
+                  <th scope="col" style="color:white">Occupancy (Yrs)</th>
+                  <th scope="col" style="color:white">Update</th>
+				  <th scope="col" style="color:white">Delete</th>
+               </tr>
+         
+         </table>
+      </div>
+   </div>
+
+   <!-- Table for displaying department data -->
+   <div id="displayDept" style="display:none" >
+      <div style="width:900px; margin:0 auto;">
+         <h2 style="color:white">Departments</h2>
+         <button onclick="showHome()" type="button" class="btn btn-primary">Home</button>
+         <button onclick="showDeptCreate()" type="button" class="btn btn-success">Create Department</button>
+		 <br>
+		 <br>
+         <table id="deptTable" style="color:white;text-align: center" class="table table-default table-border">
+
+               <tr>
+                  <th scope="col" style="color:white">DeptID</th>
+                  <th scope="col" style="color:white">Name</th>
+                  <th scope="col" style="color:white">Budget</th>
+                  <th scope="col" style="color:white">Location</th>
+                  <th scope="col" style="color:white">Update</th>
+				  <th scope="col" style="color:white">Delete</th>
+               </tr>
+         
+         </table>
+      </div>
+   </div>
+
+   <!-- Table for displaying employee data -->
+   <div id="displayEmp" style="display:none" class="text-white">
+      <div style="width:900px; margin:0 auto;">
+         <h2 style="color:white">Employees</h2>
+         <button onclick="showHome()" type="button" class="btn btn-primary">Home</button>
+         <button onclick="showEmpCreate()" type="button" class="btn btn-success">Create Employee</button>
+         <table id="empTable" style="color:white;text-align: center" class="table table-default table-border">
+               
+			   <tr>
+                  <th scope="col" style="color:white">EmpID</th>
+                  <th scope="col" style="color:white">Name</th>
+                  <th scope="col" style="color:white">Title</th>
+                  <th scope="col" style="color:white">Salary</th>
+                  <th scope="col" style="color:white">Dept</th>
+                  <th scope="col" style="color:white">Update</th>
+				  <th scope="col" style="color:white">Delete</th>
+               
+			   </tr>
+         </table>
+      </div>
+   </div>
+	
+	<br>
+	<br>
+   <!-- Table for displaying Home page -->
+   <div id="displayHome" style="text-align:center" >
+				
+                  <button onclick="showLocDisplay()" type="button" class="btn btn-success" style="height:100px;width:150px" >All Locations</button>
+				  <button onclick="showDeptDisplay()" type="button" class="btn btn-success" style="height:100px;width:150px" >All Departments</button>
+				  <button onclick="showEmpDisplay()" type="button" class="btn btn-success" style="height:100px;width:150px" >All Employees</button>
+	</div>
+
+
+   <script>
+	
+      logoutForm = document.getElementById("logout-form");
+      host = window.location.origin
+      logoutForm.action = host + "/logout";
+	  
+	
+		function showLocDisplay() {
+         document.getElementById('displayHome').style.display = "none"
+		   document.getElementById('displayLoc').style.display = "block"
+		   document.getElementById('displayDept').style.display = "none"
+         document.getElementById('displayEmp').style.display = "none"
+         document.getElementById('displayHome').style.display = "none"
+         document.getElementById('createUpdateLoc').style.display = "none"
+         document.getElementById('createUpdateDept').style.display = "none"
+         document.getElementById('createUpdateEmp').style.display = "none"
+      };
+
+      function showLocCreate(){
+         clearLocForm()
+         
+         document.getElementById('displayHome').style.display = "none"
+		   document.getElementById('displayLoc').style.display = "none"		 
+         document.getElementById('displayDept').style.display = "none"
+         document.getElementById('displayEmp').style.display = "none"
+		   document.getElementById('createUpdateLoc').style.display = "block"
+         document.getElementById('createUpdateDept').style.display = "none"
+         document.getElementById('createUpdateEmp').style.display = "none"
+         // title
+         document.getElementById('titleCreateLoc').style.display = "block"
+         document.getElementById('titleUpdateLoc').style.display = "none"
+         // buttons
+         document.getElementById('createLoc').style.display = "block"
+         document.getElementById('updateLoc').style.display = "none"
+      }
+
+      function showLocUpdate(thisElem) {
+         var rowElement = thisElem.parentNode.parentNode;
+         var loc = readLocFromRow(rowElement)
+         populateLocForm(loc)
+
+         document.getElementById('displayHome').style.display = "none"
+		   document.getElementById('displayLoc').style.display = "none"
+         document.getElementById('displayDept').style.display = "none"
+         document.getElementById('displayEmp').style.display = "none"
+		   document.getElementById('createUpdateLoc').style.display = "block"
+         document.getElementById('createUpdateDept').style.display = "none"
+         document.getElementById('createUpdateEmp').style.display = "none"
+         // title
+         document.getElementById('titleCreateLoc').style.display = "none"
+         document.getElementById('titleUpdateLoc').style.display = "block"
+         // buttons
+         document.getElementById('createLoc').style.display = "none"
+         document.getElementById('updateLoc').style.display = "block"
+      }
+
+      function readLocFromRow(rowElement) {
+         var loc = {}
+         // locID is loc table row id omitting the first character 'l'
+         loc.locID = rowElement.getAttribute("id").substr(1);
+         loc.loc_name = rowElement.cells[1].firstChild.textContent
+         loc.type = rowElement.cells[2].firstChild.textContent
+         loc.years_occupancy = rowElement.cells[3].firstChild.textContent
+         return loc
+      }
+      function populateLocForm(loc) {
+         var form = document.getElementById('createUpdateLocForm')
+
+         form.querySelector('input[name="locID"]').value = loc.locID
+         form.querySelector('input[name="locID"]').disabled = true
+
+         form.querySelector('input[name="loc_name"]').value = loc.loc_name
+         form.querySelector('input[name="type"]').value = loc.type
+         form.querySelector('input[name="years_occupancy"]').value = loc.years_occupancy
+      }
+      function clearLocForm() {
+         var form = document.getElementById('createUpdateLocForm')
+
+         form.querySelector('input[name="locID"]').value = ''
+         form.querySelector('input[name="locID"]').disabled = true
+
+         form.querySelector('input[name="loc_name"]').value = ''
+         form.querySelector('input[name="type"]').value = ''
+         form.querySelector('input[name="years_occupancy"]').value = ''
+      }
+
+      function doUpdateLoc() {
+         var loc = getLocFromForm()
+         if (validateLocForm(loc) == 1) {
+            updateLocServer(loc)         
+         }
+      }
+
+      function updateLocServer(loc) {
+         // ajax updateDept
+         host = window.location.origin
+         $.ajax({
+            url: host + "/locations/" + loc.locID,
+            data: JSON.stringify(loc),
+            method: "PUT",
+            dataType: "JSON",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+               console.log(result)
+               updateLocTableRow(loc)
+               showLocDisplay()
+               clearLocForm()
+               
+            },
+            error: function (xhr, status, error) {
+               console.log("error" + error)
+            }
+         })
+      }
+		
+      function updateLocTableRow(loc) {
+         var rowElement = document.getElementById("l"+loc.locID)
+         rowElement.cells[1].firstChild.textContent = loc.loc_name
+         rowElement.cells[2].firstChild.textContent = loc.type
+         rowElement.cells[3].firstChild.textContent = loc.years_occupancy
+         //console.log("updating dept table")
+      }
+
+      function doCreateLoc() {
+         var loc = getLocFromForm()
+         if (validateLocForm(loc) == 1) {
+            // ajax createLoc
+            host = window.location.origin
+            $.ajax({
+               url: host + '/locations',
+               data: JSON.stringify(loc),
+               method: 'POST',
+               datatype: 'JSON',
+               contentType: "application/json; charset=utf-8",
+               success: function (result) {
+                  console.log("Location " + result + " added")
+                  loc.locID = result
+                  addLoctoTable(loc)
+                  showLocDisplay()
+                  clearLocForm()
+               },
+               error: function (xhr, status, error) {
+                  console.log("error " + error)
+               }
+            })
+         }
+
+      }
+	  
+
+      function doLocDelete(thisElem){
+         var tableElement = document.getElementById('locTable');
+         var rowElement = thisElem.parentNode.parentNode;
+         var index = rowElement.rowIndex;
+         // locID is loc table row id omitting the first character 'l'
+         var loc = rowElement.getAttribute("id").substr(1);
+         // ajax deleteloc
+         host = window.location.origin
+         $.ajax({
+            url: host + "/locations/"+loc,
+            method:"DELETE",
+            dateType:"JSON",
+            success:function(result){
+               console.log(result)
+               if (result.done == false){
+                  alert("WARNING: Cannot delete location with associated department!")
+               } else {
+                  tableElement.deleteRow(index);
+                  console.log("Location " + loc + " deleted")
+               }
+            },
+            error:function(xhr,status,error){
+               console.log(error)
+            }
+         })
+      }
+
+	
+
+           function showDeptDisplay() {
+         document.getElementById('displayHome').style.display = "none"
+		 document.getElementById('displayLoc').style.display = "none"
+		 document.getElementById('displayDept').style.display = "block"
+         document.getElementById('displayEmp').style.display = "none"
+		 document.getElementById('displayHome').style.display = "none"
+		 document.getElementById('createUpdateLoc').style.display = "none"
+		 document.getElementById('createUpdateDept').style.display = "none"
+         document.getElementById('createUpdateEmp').style.display = "none"
+      }
+
+      function showDeptCreate(){
+         clearDeptForm()
+         
+         document.getElementById('displayHome').style.display = "none"
+		 document.getElementById('displayLoc').style.display = "none"		 
+         document.getElementById('displayDept').style.display = "none"
+         document.getElementById('displayEmp').style.display = "none"
+		 document.getElementById('createUpdateLoc').style.display = "none"
+         document.getElementById('createUpdateDept').style.display = "block"
+         document.getElementById('createUpdateEmp').style.display = "none"
+         // title
+         document.getElementById('titleCreateDept').style.display = "block"
+         document.getElementById('titleUpdateDept').style.display = "none"
+         // buttons
+         document.getElementById('createDept').style.display = "block"
+         document.getElementById('updateDept').style.display = "none"
+      }
+
+      function showDeptUpdate(thisElem) {
+         var rowElement = thisElem.parentNode.parentNode;
+         var dept = readDeptFromRow(rowElement)
+         populateDeptForm(dept)
+
+         document.getElementById('displayHome').style.display = "none"
+		 document.getElementById('displayLoc').style.display = "none"
+         document.getElementById('displayDept').style.display = "none"
+         document.getElementById('displayEmp').style.display = "none"
+		 document.getElementById('createUpdateLoc').style.display = "none"
+         document.getElementById('createUpdateDept').style.display = "block"
+         document.getElementById('createUpdateEmp').style.display = "none"
+         // title
+         document.getElementById('titleCreateDept').style.display = "none"
+         document.getElementById('titleUpdateDept').style.display = "block"
+         // buttons
+         document.getElementById('createDept').style.display = "none"
+         document.getElementById('updateDept').style.display = "block"
+      }
+
+      function readDeptFromRow(rowElement) {
+         var dept = {}
+         // deptID is dept table row id omitting the first character 'd'
+         dept.deptID = rowElement.getAttribute("id").substr(1);
+         dept.dept_name = rowElement.cells[1].firstChild.textContent
+         dept.budget = rowElement.cells[2].firstChild.textContent
+         dept.location = rowElement.cells[3].firstChild.textContent
+         return dept
+      }
+      function populateDeptForm(dept) {
+         var form = document.getElementById('createUpdateDeptForm')
+
+         form.querySelector('input[name="deptID"]').value = dept.deptID
+         form.querySelector('input[name="deptID"]').disabled = true
+
+         form.querySelector('input[name="dept_name"]').value = dept.dept_name
+         form.querySelector('input[name="budget"]').value = dept.budget
+         form.querySelector('input[name="location"]').value = dept.location
+      }
+      function clearDeptForm() {
+         var form = document.getElementById('createUpdateDeptForm')
+
+         form.querySelector('input[name="deptID"]').value = ''
+         form.querySelector('input[name="deptID"]').disabled = true
+
+         form.querySelector('input[name="dept_name"]').value = ''
+         form.querySelector('input[name="budget"]').value = ''
+         form.querySelector('input[name="location"]').value = ''
+      }
+
+      function doUpdateDept() {
+         var dept = getDeptFromForm()
+         if (validateDeptForm(dept) == 1) {
+            updateDeptServer(dept)         
+         }
+      }
+
+      function updateDeptServer(dept) {
+         // ajax updateDept
+         host = window.location.origin
+         $.ajax({
+            url: host + "/departments/" + dept.deptID,
+            data: JSON.stringify(dept),
+            method: "PUT",
+            dataType: "JSON",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+               console.log(result)
+               updateDeptTableRow(dept)
+               showDeptDisplay()
+               clearDeptForm()
+            },
+            error: function (xhr, status, error) {
+            console.log("error" + error)
+			alert("WARNING: INPUT ERROR Location ID not found!")
+            }
+         })
+      }
+
+      function updateDeptTableRow(dept) {
+         var rowElement = document.getElementById("d" + dept.deptID)
+         rowElement.cells[1].firstChild.textContent = dept.dept_name
+         rowElement.cells[2].firstChild.textContent = dept.budget
+         rowElement.cells[3].firstChild.textContent = dept.location
+         //console.log("updating dept table")
+      }
+
+      function doCreateDept() {
+         var dept = getDeptFromForm()
+         if (validateDeptForm(dept) == 1) {
+            // ajax createDept
+            host = window.location.origin
+            $.ajax({
+               url: host + '/departments',
+               data: JSON.stringify(dept),
+               method: 'POST',
+               datatype: 'JSON',
+               contentType: "application/json; charset=utf-8",
+               success: function (result) {
+                  console.log("Department " + result + " added")
+                  dept.deptID = result
+                  addDepttoTable(dept)
+                  showDeptDisplay()
+                  clearDeptForm()
+               },
+               error: function (xhr, status, error) {
+                  console.log("error " + error)
+				alert("WARNING: INPUT ERROR Department ID not found!")
+               }
+            })
+         }
+
+      }
+
+      function doDeptDelete(thisElem){
+         var tableElement = document.getElementById('deptTable');
+         var rowElement = thisElem.parentNode.parentNode;
+         var index = rowElement.rowIndex;
+         // deptID is dept table row id omitting the first character 'd'
+         var dept = rowElement.getAttribute("id").substr(1);
+         // ajax deleteDept
+         host = window.location.origin
+         $.ajax({
+            url: host + "/departments/"+dept,
+            method:"DELETE",
+            dateType:"JSON",
+            success:function(result){
+               console.log(result)
+               if (result.done == false){
+                  alert("WARNING: Cannot delete department with associated employees!")
+               } else {
+                  tableElement.deleteRow(index);
+                  console.log("Department " + dept + " deleted")
+               }
+            },
+            error:function(xhr,status,error){
+               console.log(error)
+            }
+         })
+      }
+
+      function showEmpDisplay() {
+         document.getElementById('displayHome').style.display = "none"
+		 document.getElementById('displayLoc').style.display = "none"
+         document.getElementById('displayDept').style.display = "none"
+         document.getElementById('displayEmp').style.display = "block"
+		 document.getElementById('createUpdateLoc').style.display = "none"
+         document.getElementById('createUpdateDept').style.display = "none"
+         document.getElementById('createUpdateEmp').style.display = "none"
+      }
+
+      function showEmpCreate(){
+         clearEmpForm()
+         
+         document.getElementById('displayHome').style.display = "none"
+		 document.getElementById('displayLoc').style.display = "none"
+         document.getElementById('displayDept').style.display = "none"
+         document.getElementById('displayEmp').style.display = "none"
+		 document.getElementById('createUpdateLoc').style.display = "none"
+         document.getElementById('createUpdateDept').style.display = "none"
+         document.getElementById('createUpdateEmp').style.display = "block"
+         // title
+         document.getElementById('titleCreateEmp').style.display = "block"
+         document.getElementById('titleUpdateEmp').style.display = "none"
+         // buttons
+         document.getElementById('createEmp').style.display = "block"
+         document.getElementById('updateEmp').style.display = "none"
+      }
+
+      function showEmpUpdate(thisElem) {
+         var rowElement = thisElem.parentNode.parentNode;
+         var emp = readEmpFromRow(rowElement)
+         populateEmpForm(emp)
+
+         document.getElementById('displayHome').style.display = "none"
+         document.getElementById('displayDept').style.display = "none"
+		 document.getElementById('displayLoc').style.display = "none"
+         document.getElementById('displayEmp').style.display = "none"
+		 document.getElementById('createUpdateLoc').style.display = "none"
+         document.getElementById('createUpdateDept').style.display = "none"
+         document.getElementById('createUpdateEmp').style.display = "block"
+         // title
+         document.getElementById('titleCreateEmp').style.display = "none"
+         document.getElementById('titleUpdateEmp').style.display = "block"
+         // buttons
+         document.getElementById('createEmp').style.display = "none"
+         document.getElementById('updateEmp').style.display = "block"
+      }
+
+      function readEmpFromRow(rowElement) {
+         var emp = {}
+         // empID is emp table row id omitting the first character 'e'
+         emp.empID = rowElement.getAttribute("id").substr(1);
+         emp.name = rowElement.cells[1].firstChild.textContent
+         emp.title = rowElement.cells[2].firstChild.textContent
+         emp.salary = rowElement.cells[3].firstChild.textContent
+         emp.dept = rowElement.cells[4].firstChild.textContent
+         // console.log(emp.empID)
+         return emp
+      }
+
+      function populateEmpForm(emp) {
+         var form = document.getElementById('createUpdateEmpForm')
+
+         form.querySelector('input[name="empID"]').value = emp.empID
+         form.querySelector('input[name="empID"]').disabled = true
+
+         form.querySelector('input[name="name"]').value = emp.name
+         form.querySelector('input[name="title"]').value = emp.title
+         form.querySelector('input[name="salary"]').value = emp.salary
+         form.querySelector('input[name="dept"]').value = emp.dept
+      }
+      function clearEmpForm() {
+         var form = document.getElementById('createUpdateEmpForm')
+
+         form.querySelector('input[name="empID"]').value = ''
+         form.querySelector('input[name="empID"]').disabled = true
+
+         form.querySelector('input[name="name"]').value = ''
+         form.querySelector('input[name="title"]').value = ''
+         form.querySelector('input[name="salary"]').value = ''
+         form.querySelector('input[name="dept"]').value = ''
+      }
+
+      function doUpdateEmp() {
+         var emp = getEmpFromForm()
+         // console.log(emp)
+         if (validateEmpForm(emp) == 1) {
+            updateEmpServer(emp)       
+         }
+      }
+
+      function updateEmpServer(emp) {
+         // ajax updateEmp
+         host = window.location.origin
+         $.ajax({
+            url: host + "/employees/" + emp.empID,
+            data: JSON.stringify(emp),
+            method: "PUT",
+            dataType: "JSON",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+               console.log(result)
+               updateEmpTableRow(emp)
+               showEmpDisplay()
+               clearEmpForm()
+            },
+            error: function (xhr, status, error) {
+               console.log("error" + error)
+               // NOTE: deptID has to exist to assign an employee to a deptID
+               alert("WARNING: INPUT ERROR Department ID not found!")
+            }
+         })
+      }
+
+      function updateEmpTableRow(emp) {
+         var rowElement = document.getElementById("e" + emp.empID)
+         rowElement.cells[1].firstChild.textContent = emp.name
+         rowElement.cells[2].firstChild.textContent = emp.title
+         rowElement.cells[3].firstChild.textContent = emp.salary
+         rowElement.cells[4].firstChild.textContent = emp.dept
+         // console.log("updating emp table")
+      }
+
+      function doCreateEmp() {
+         var emp = getEmpFromForm()
+         if (validateEmpForm(emp) == 1) {
+            // ajax createEmp
+            host = window.location.origin
+            $.ajax({
+               url: host + '/employees',
+               data: JSON.stringify(emp),
+               method: 'POST',
+               datatype: 'JSON',
+               contentType: "application/json; charset=utf-8",
+               success: function (result) {
+                  console.log("Employee " + result + " created")
+                  emp.empID = result
+                  addEmptoTable(emp)
+                  showEmpDisplay()
+                  clearEmpForm()
+               },
+               error: function (xhr, status, error) {
+                  console.log("error " + error)
+                  // NOTE: deptID has to exist to assign an employee to a deptID
+                  alert("WARNING: INPUT ERROR Department ID not found!")
+               }
+            })
+         }
+      }
+
+      function doEmpDelete(thisElem){
+         var tableElement = document.getElementById('empTable');
+         var rowElement = thisElem.parentNode.parentNode;
+         var index = rowElement.rowIndex;
+         // empID is emp table row id omitting the first character 'e'
+         var emp = rowElement.getAttribute("id").substr(1);
+         // ajax deleteEmp
+         host = window.location.origin
+         $.ajax({
+            url: host + "/employees/"+ emp,
+            method:"DELETE",
+            dateType:"JSON",
+            success:function(result){
+               tableElement.deleteRow(index);
+               console.log("Employee " + emp + " deleted")
+            },
+            error:function(xhr,status,error){
+               console.log(error)
+            }
+         })
+      }
+
+      function showHome() {
+         document.getElementById('displayHome').style.display = "block"
+		 document.getElementById('displayLoc').style.display = "none"
+         document.getElementById('displayDept').style.display = "none"
+         document.getElementById('displayEmp').style.display = "none"
+		 document.getElementById('createUpdateLoc').style.display = "none"
+         document.getElementById('createUpdateDept').style.display = "none"
+         document.getElementById('createUpdateEmp').style.display = "none"
+      }
+	  
+	  function getLocFromForm(){
+         var form = document.getElementById('createUpdateLocForm')
+         var loc = {}
+         loc.locID = parseInt(form.querySelector('input[name="locID"]').value)
+         loc.loc_name = form.querySelector('input[name="loc_name"]').value
+         loc.type = form.querySelector('input[name="type"]').value
+         loc.years_occupancy = parseInt(form.querySelector('input[name="years_occupancy"]').value)
+         // console.log(dept)
+         return loc
+      }
+
+      function validateLocForm(l){
+         // Check if and department form fields are are empty. Code adapted from
+         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN
+         if (l.loc_name.length == 0 || l.type.length == 0 || Number.isNaN(l.years_occupancy) == true ){
+            alert("WARNING: INPUT ERROR Blank location form field submitted!")
+            return 0
+         }
+         return 1
+      }
+
+      function getDeptFromForm(){
+         var form = document.getElementById('createUpdateDeptForm')
+         var dept = {}
+         dept.deptID = parseInt(form.querySelector('input[name="deptID"]').value)
+         dept.dept_name = form.querySelector('input[name="dept_name"]').value
+         dept.budget = parseInt(form.querySelector('input[name="budget"]').value)
+         dept.location = parseInt(form.querySelector('input[name="location"]').value)
+         // console.log(dept)
+         return dept
+      }
+
+      function validateDeptForm(d){
+         // Check if and department form fields are are empty. Code adapted from
+         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN
+         if (d.dept_name.length == 0 || Number.isNaN(d.budget) == true || Number.isNaN(d.salary) == true ){
+            alert("WARNING: INPUT ERROR Blank department form field submitted!")
+            return 0
+         }
+         return 1
+      }
+
+      function getEmpFromForm(){
+         var form = document.getElementById('createUpdateEmpForm')
+         var emp = {}
+         emp.empID = parseInt(form.querySelector('input[name="empID"]').value)
+         emp.name = form.querySelector('input[name="name"]').value
+         emp.title = form.querySelector('input[name="title"]').value
+         emp.salary = parseInt(form.querySelector('input[name="salary"]').value)
+         emp.dept = parseInt(form.querySelector('input[name="dept"]').value)
+         // console.log(emp)
+         return emp
+      }
+
+      function validateEmpForm(e){
+         // Check if any employee form fields are empty
+         if (e.name.length == 0 || e.title.length == 0 || Number.isNaN(e.salary) == true || Number.isNaN(e.dept) == true){
+            alert("WARNING: INPUT ERROR Blank employee form field submitted!")
+            return 0
+         }
+         return 1
+      }
+	  
+	  function populateLocTable(){
+         // ajax getAllDept
+         host = window.location.origin
+         $.ajax({
+            url: host + '/locations',
+            method: 'GET',
+            datatype: 'JSON',
+            success: function (results) {
+               for (loc of results) {
+                  addLoctoTable(loc)
+               }
+            },
+            error: function (xhr, status, error) {
+               console.log("error " + error + " code:" + status)
+            }
+         })
+      }
+
+      function populateDeptTable(){
+         // ajax getAllDept
+         host = window.location.origin
+         $.ajax({
+            url: host + '/departments',
+            method: 'GET',
+            datatype: 'JSON',
+            success: function (results) {
+               for (dept of results) {
+                  addDepttoTable(dept)
+               }
+            },
+            error: function (xhr, status, error) {
+               console.log("error " + error + " code:" + status)
+            }
+         })
+      }
+
+      function populateEmpTable(){
+         // ajax getAllEmp
+         host = window.location.origin
+         $.ajax({
+            url: host + '/employees',
+            method: 'GET',
+            datatype: 'JSON',
+            success: function (results) {
+               for (emp of results) {
+                  addEmptoTable(emp)
+               }
+            },
+            error: function (xhr, status, error) {
+               console.log("error " + error + " code:" + status)
+            }
+         })
+      }
+	  
+	  function addLoctoTable(loc){
+         // console.log("add to dept table working")
+         var tableElem = document.getElementById('locTable')
+         var rowElem = tableElem.insertRow(-1)
+         rowElem.setAttribute('id', "l"+loc.locID)
+         
+         var cell1 = rowElem.insertCell(0);
+         cell1.innerHTML = loc.locID
+         var cell2 = rowElem.insertCell(1);
+         cell2.innerHTML = loc.loc_name
+         var cell3 = rowElem.insertCell(2);
+         cell3.innerHTML = loc.type
+         var cell4 = rowElem.insertCell(3);
+         cell4.innerHTML = loc.years_occupancy
+         var cell5 = rowElem.insertCell(4);
+         cell5.innerHTML = '<button onclick="showLocUpdate(this)"  type="button" class="btn btn-info">Update</button>'
+         var cell6 = rowElem.insertCell(5);
+         cell6.innerHTML = '<button onclick="doLocDelete(this)" type="button" class="btn btn-danger">Delete</button>'
+      }
+
+      function addDepttoTable(dept){
+         // console.log("add to dept table working")
+         var tableElem = document.getElementById('deptTable')
+         var rowElem = tableElem.insertRow(-1)
+         rowElem.setAttribute('id', "d"+dept.deptID)
+         var cell1 = rowElem.insertCell(0);
+         cell1.innerHTML = dept.deptID
+         var cell2 = rowElem.insertCell(1);
+         cell2.innerHTML = dept.dept_name
+         var cell3 = rowElem.insertCell(2);
+         cell3.innerHTML = dept.budget
+         var cell4 = rowElem.insertCell(3);
+         cell4.innerHTML = dept.location
+         var cell5 = rowElem.insertCell(4);
+         cell5.innerHTML = '<button onclick="showDeptUpdate(this)"  type="button" class="btn btn-info">Update</button>'
+         var cell6 = rowElem.insertCell(5);
+         cell6.innerHTML = '<button onclick="doDeptDelete(this)" type="button" class="btn btn-danger">Delete</button>'
+      }
+
+      function addEmptoTable(emp){
+         // console.log("add to emp table working")
+         var tableElem = document.getElementById('empTable')
+         var rowElem = tableElem.insertRow(-1)
+         rowElem.setAttribute('id', "e"+emp.empID)
+         var cell1 = rowElem.insertCell(0);
+         cell1.innerHTML = emp.empID
+         var cell2 = rowElem.insertCell(1);
+         cell2.innerHTML = emp.name
+         var cell3 = rowElem.insertCell(2);
+         cell3.innerHTML = emp.title
+         var cell4 = rowElem.insertCell(3);
+         cell4.innerHTML = emp.salary
+         var cell5 = rowElem.insertCell(4);
+         cell5.innerHTML = emp.dept
+         var cell6 = rowElem.insertCell(5);
+         cell6.innerHTML = '<button onclick="showEmpUpdate(this)"  type="button" class="btn btn-info">Update</button>'
+         var cell7 = rowElem.insertCell(6);
+         cell7.innerHTML = '<button onclick="doEmpDelete(this)" type="button" class="btn btn-danger">Delete</button>'
+      }
+		
+	  populateLocTable()
+      populateDeptTable()
+      populateEmpTable()
+
+   </script>
 </body>
+
 </html>

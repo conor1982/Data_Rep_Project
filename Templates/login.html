@@ -15,7 +15,7 @@
 }
 
 body {
-    background: linear-gradient(45deg, #2110bd, #2110bd);
+    background: #0a0346;
     background-repeat: no-repeat;
     min-height: 100vh;
     min-width: 100vw;
@@ -40,7 +40,6 @@ main h2 {
 }
 
 main h2::before {
-    content: '';
     position: absolute;
     height: 4px;
     width: 25px;
@@ -86,20 +85,7 @@ form .input-field:first-child {
     transform-origin: left;
 }
 
-.input-field input:focus ~ .underline::after {
-    transform: scaleX(1);
-}
 
-.input-field input {
-    outline: none;
-    font-size: 0.9rem;
-    color: rgba(0, 0, 0, 0.7);
-    width: 100%;
-}
-
-.input-field input::placeholder {
-    color: rgba(0, 0, 0, 0.5);
-}
 
 form input[type="submit"] {
     margin-top: 2rem;
@@ -114,10 +100,6 @@ form input[type="submit"] {
     transition: all 0.3s ease;
 }
 
-form input[type="submit"]:hover {
-    letter-spacing: 0.5px;
-    background: linear-gradient(to right, #4776E6, #8e54e9);
-}
 
 .footer {
     display: flex;

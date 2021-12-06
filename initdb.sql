@@ -4,7 +4,7 @@ USE organisation;
 
 CREATE TABLE locations(
     locID INT NOT NULL AUTO_INCREMENT,
-    location VARCHAR(255) DEFAULT NULL,
+    loc_name VARCHAR(255) DEFAULT NULL,
     type VARCHAR(255) DEFAULT NULL,
     years_occupancy INT DEFAULT NULL,
     PRIMARY KEY (locID)
@@ -23,6 +23,7 @@ CREATE TABLE departments(
 CREATE TABLE employees(
     empID INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) DEFAULT NULL,
+    title VARCHAR(255) DEFAULT NULL,
     salary INT DEFAULT NULL,
     dept INT DEFAULT NULL,
     PRIMARY KEY (empID),
@@ -39,11 +40,11 @@ CREATE TABLE users(
    );
 
 
-INSERT INTO locations (location, type, years_occupancy) VALUES ("Killarney (Head Office)", "Owned", 12);
-INSERT INTO locations (location, type, years_occupancy) VALUES ("Cork", "Leased", 1);
-INSERT INTO locations (location, type, years_occupancy) VALUES ("Belfast", "Leased", 3);
-INSERT INTO locations (location, type, years_occupancy) VALUES ("London", "Owned", 8);
-INSERT INTO locations (location, type, years_occupancy) VALUES ("New York", "Leased", 2);
+INSERT INTO locations (loc_name, type, years_occupancy) VALUES ("Killarney (Head Office)", "Owned", 12);
+INSERT INTO locations (loc_name, type, years_occupancy) VALUES ("Cork", "Leased", 1);
+INSERT INTO locations (loc_name, type, years_occupancy) VALUES ("Belfast", "Leased", 3);
+INSERT INTO locations (loc_name, type, years_occupancy) VALUES ("London", "Owned", 8);
+INSERT INTO locations (loc_name, type, years_occupancy) VALUES ("New York", "Leased", 2);
 
 INSERT INTO departments (dept_name, budget, location) VALUES ("Sales", 50000, 1);
 INSERT INTO departments (dept_name, budget, location) VALUES ("Analytics", 100000, 1);
@@ -68,13 +69,14 @@ INSERT INTO employees (name, title, salary,dept) VALUES ("Colm Cooper","Head of 
 INSERT INTO employees (name, title, salary,dept) VALUES ("Roy Keane","Investment Analyst",800000, 7);
 INSERT INTO employees (name, title, salary,dept) VALUES ("Patrick Smith","Head of Data Quality",800000, 8);
 INSERT INTO employees (name, title, salary,dept) VALUES ("Dara Moynihan","Data Quality Analyst",800000, 8);
-INSERT INTO employees (name, title, salary,dept) VALUES ("Liam Kearney","Customer Success Lead",800000, 9);
-INSERT INTO employees (name, title, salary,dept) VALUES ("Patrick O'Sullivan","Customer Success Lead",800000, 9);
+INSERT INTO employees (name, title, salary,dept) VALUES ("Liam Kearney","Customer Success Lead",800000, 8);
+INSERT INTO employees (name, title, salary,dept) VALUES ("Patrick O'Sullivan","Customer Success Lead",800000, 8);
 
 INSERT INTO users (name,password) VALUES ("admin","admin");
 INSERT INTO users (name,password) VALUES ("conor","1982");
 INSERT INTO users (name,password) VALUES ("andrew","lecturer");
 INSERT INTO users (name,password) VALUES ("course","datarep");
+
 
 
 

@@ -1,5 +1,6 @@
 from flask import Flask, url_for, request, redirect, abort, jsonify, render_template, abort, session
 from DAO import orgDao
+#import mysql.connector
 
 
 #app = Flask(__name__, static_url_path='', static_folder='staticpages')
@@ -141,7 +142,7 @@ def createLoc():
         abort(400)
 
     location = {
-        "location": request.json["location"],
+        "loc_name": request.json["loc_name"],
         "type": request.json["type"],
         "years_occupancy": request.json["years_occupancy"]
     }
@@ -164,6 +165,9 @@ def createDept():
             "location": request.json["location"]
         }
         return jsonify(orgDao.createDepartment(department))
+    
+    #except mysql.connector.IntegrityError as err:
+        #return err
 
     except Exception as e:
         e = 'Cannot add or update a child row\nLocation ID does not Exist\nForeign key constraint fails'
@@ -189,6 +193,9 @@ def createEmp():
         }
         return jsonify(orgDao.createEmployee(employee))
 
+    #except mysql.connector.IntegrityError as err:
+        #return err
+    
     except Exception as e:
         e = 'Cannot add or update a child row\nLocation ID does not Exist\nForeign key constraint fails'
         return str(e)
@@ -224,8 +231,8 @@ def updateLoc(locID):
     if foundLoc == {}:
         return jsonify({}), 404
     currentLoc = foundLoc
-    if 'location' in request.json:
-        currentLoc['location'] = request.json['location']
+    if 'loc_name' in request.json:
+        currentLoc['loc_name'] = request.json['loc_name']
     if 'type' in request.json:
         currentLoc['type'] = request.json['type']
     if 'years_occupancy' in request.json:
@@ -239,21 +246,25 @@ def updateLoc(locID):
 # curl -X PUT -d "{\"dept_name\":\"mad crowd\"}" -H "content-type:application/json" http://127.0.0.1:5000/departments/59
 @app.route('/departments/<int:deptID>', methods=['PUT'])
 def updateDept(deptID):
-    if not 'username' in session:
-        abort(401)
-    foundDept = orgDao.findDeptById(deptID)
-    if foundDept == {}:
-        return jsonify({}), 404
-    currentDept = foundDept
-    if 'dept_name' in request.json:
-        currentDept['dept_name'] = request.json['dept_name']
-    if 'budget' in request.json:
-        currentDept['budget'] = request.json['budget']
-    if 'location' in request.json:
-        currentDept['location'] = request.json['location']
-    orgDao.updateDept(currentDept)
+    try: 
+        if not 'username' in session:
+            abort(401)
+        foundDept = orgDao.findDeptById(deptID)
+        if foundDept == {}:
+            return jsonify({}), 404
+        currentDept = foundDept
+        if 'dept_name' in request.json:
+            currentDept['dept_name'] = request.json['dept_name']
+        if 'budget' in request.json:
+            currentDept['budget'] = request.json['budget']
+        if 'location' in request.json:
+            currentDept['location'] = request.json['location']
+        orgDao.updateDept(currentDept)
 
-    return jsonify(currentDept)
+        return jsonify(currentDept)
+    
+    except Exception as e:
+        return "LocID does not Exist"
 
 # update employees
 # curl

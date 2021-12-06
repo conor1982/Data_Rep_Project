@@ -42,9 +42,9 @@ class OrgDAO:
     def createLocation(self,location):
         db = self.getConnection()
         cursor = db.cursor()
-        sql = "insert into locations (location, type, years_occupancy) values (%s,%s,%s)"
-        values = [
-            location['location'],
+        sql = "insert into locations (loc_name, type, years_occupancy) values (%s,%s,%s)"
+        values = [            
+            location["loc_name"],
             location['type'],
             location['years_occupancy']
               ]
@@ -53,6 +53,7 @@ class OrgDAO:
         lastRowId = cursor.lastrowid
         db.close()
         return lastRowId
+        #return location['location']
 
     #create department
     def createDepartment(self,dept):
@@ -198,12 +199,12 @@ class OrgDAO:
         results = cursor.fetchall()
         
         returnArray = []
-        for i in results:
-            returnArray.append(i[0])
+        #for i in results:
+        #    returnArray.append(i[0])
         
-        #for result in results:
-        #    resultAsDict = self.convertEmpToDict(result)
-        #    returnArray.append(resultAsDict)
+        for result in results:
+            resultAsDict = self.convertEmpToDict(result)
+            returnArray.append(resultAsDict)
         db.close()
         return returnArray
 
@@ -213,9 +214,9 @@ class OrgDAO:
     def updateLoc(self, loc):
         db = self.getConnection()
         cursor = db.cursor()
-        sql = "update locations set location = %s, type = %s, years_occupancy = %s where locID = %s"
+        sql = "update locations set loc_name = %s, type = %s, years_occupancy = %s where locID = %s"
         values = [
-            loc['location'],
+            loc['loc_name'],
             loc['type'],
             loc['years_occupancy'],
             loc['locID']
@@ -263,35 +264,25 @@ class OrgDAO:
     #delete location based on locID
     def deleteLoc(self, locID):
         db = self.getConnection()
-        with db:
-            try:
-                cursor = db.cursor()
-                sql = 'delete from locations where locID = %s'
-                values = [locID]
-                cursor.execute(sql, values)
-                db.commit()
-                db.close()
-                return {}
-            except mysql.connector.errors.IntegrityError as e:
-                print("Cannot delete or update a parent row: a foreign key constraint fails")
-
-
-
+        cursor = db.cursor()
+        sql = 'delete from locations where locID = %s'
+        values = [locID]
+        cursor.execute(sql, values)
+        db.commit()
+        db.close()
+        return {}
+        
     #delete department based on deptID
     def deleteDept(self, deptID):
         db = self.getConnection()
-        with db:
-            try:
-                cursor = db.cursor()
-                sql = 'delete from departments where deptID = %s'
-                values = [deptID]
-                cursor.execute(sql, values)
-                db.commit()
-                db.close()
-                return {}
-            except mysql.connector.errors.IntegrityError as e:
-                print("Cannot delete or update a parent row: a foreign key constraint fails")
-
+        cursor = db.cursor()
+        sql = 'delete from departments where deptID = %s'
+        values = [deptID]
+        cursor.execute(sql, values)
+        db.commit()
+        db.close()
+        return {}
+        
     #delete employee based on empID
     def deleteEmp(self, empID):
         db = self.getConnection()
@@ -375,7 +366,7 @@ class OrgDAO:
 
     #Locations to Dict
     def convertLocToDict(self,result):
-        colnames = ['locID','location', 'type', 'years_occupancy']
+        colnames = ['locID','loc_name', 'type', 'years_occupancy']
         loc = {}
 
         if result:
@@ -439,7 +430,7 @@ class OrgDAO:
     def getAllDeptInLoc(self, locID):
         db = self.getConnection()
         cursor = db.cursor()
-        sql = 'select location from departments where location = %s;'
+        sql = 'select loc_name from departments where location = %s;'
         values = [locID]
         cursor.execute(sql, values)
         results = cursor.fetchall()

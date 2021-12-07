@@ -1,8 +1,9 @@
 # Database access configuration file.
 # Please update variable values for each local machine/database names/password/host
 mysql={
-   'host':"localhost",
-   'username':'root',
-   'password':'connie1!',
-   'database':'organisation'
+   'host':"conor1982.mysql.pythonanywhere-services.com,
+   'user':'conor1982',
+   'password':'datarep1',
+   'database':'conor1982$organisation'
+   
 }

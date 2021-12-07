@@ -41,8 +41,8 @@ def login():
                 else:
                     app.logger.info('Password does not match for user')
                     return render_template('login.html', title='Login', userMessage='Incorrect password entered! Please try again')
-         
-      # Otherwise               
+
+      # Otherwise
         app.logger.info('User not found')
         return render_template('login.html', title='Login', userMessage='WARNING: User not found! Please try again')
 
@@ -137,7 +137,7 @@ def findUserById(userID):
 def createLoc():
     if not 'username' in session:
         abort(401)
-  
+
     if not request.json:
         abort(400)
 
@@ -158,14 +158,14 @@ def createDept():
     try:
         if not request.json:
             abort(400)
-            
+
         department = {
             "dept_name": request.json["dept_name"],
             "budget": request.json["budget"],
             "location": request.json["location"]
         }
         return jsonify(orgDao.createDepartment(department))
-    
+
     #except mysql.connector.IntegrityError as err:
         #return err
 
@@ -184,7 +184,7 @@ def createEmp():
     try:
         if not request.json:
             abort(400)
-            
+
         employee = {
             "name": request.json["name"],
             "title": request.json["title"],
@@ -195,7 +195,7 @@ def createEmp():
 
     #except mysql.connector.IntegrityError as err:
         #return err
-    
+
     except Exception as e:
         e = 'Cannot add or update a child row\nLocation ID does not Exist\nForeign key constraint fails'
         return str(e)
@@ -207,7 +207,7 @@ def createEmp():
 def createUser():
     if not 'username' in session:
         abort(401)
-  
+
     if not request.json:
         abort(400)
 
@@ -246,7 +246,7 @@ def updateLoc(locID):
 # curl -X PUT -d "{\"dept_name\":\"mad crowd\"}" -H "content-type:application/json" http://127.0.0.1:5000/departments/59
 @app.route('/departments/<int:deptID>', methods=['PUT'])
 def updateDept(deptID):
-    try: 
+    try:
         if not 'username' in session:
             abort(401)
         foundDept = orgDao.findDeptById(deptID)
@@ -262,7 +262,7 @@ def updateDept(deptID):
         orgDao.updateDept(currentDept)
 
         return jsonify(currentDept)
-    
+
     except Exception as e:
         return "LocID does not Exist"
 
@@ -341,7 +341,7 @@ def deleteDept(deptID):
         abort(401)
     foundDept = orgDao.findDeptById(deptID)
     if foundDept == {}:
-        
+
       return jsonify({"ID Does not Exist": False}), 404
 
     foundDeptInEmp = orgDao.getAllEmpInDept(deptID)
@@ -354,7 +354,7 @@ def deleteDept(deptID):
     except Exception as e:
         return jsonify({"done": True})
 
-   
+
 # delete employee
 #curl
 # curl -X DELETE http://127.0.0.1:5000/employees/23
@@ -368,7 +368,7 @@ def deleteEmployee(empID):
 
 # delete user
 # curl
-# curl -X DELETE http://127.0.0.1:5000/login/7 
+# curl -X DELETE http://127.0.0.1:5000/login/7
 @app.route('/users/<int:userID>', methods=['DELETE'])
 def deleteUser(userID):
     if not 'username' in session:
@@ -378,4 +378,4 @@ def deleteUser(userID):
     return jsonify({"done":True})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

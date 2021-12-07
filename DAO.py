@@ -36,7 +36,8 @@ class OrgDAO:
         db = self.ConnectionToDB()
         db.close()
 
-      #Create Functions (insert into) for location, department and employees
+      ##################################################################################
+	  # Create Functions (insert into) for location, department and employees
 
       #create location
     def createLocation(self,location):
@@ -88,7 +89,8 @@ class OrgDAO:
         db.close()
         return lastRowId
 
-    #Create Functions (select all) for location, department and employees
+    ################################################################################
+	# Get all data from tables
 
     #getall locations
     def getAllLocs(self):
@@ -134,7 +136,9 @@ class OrgDAO:
 
         return returnArray
 
-    #Return Data basd on primaryKey ID
+    ##########################################################################################################
+	# Return data based on on primaryKey ID
+	# Primary key unique therefore "fetchone" function used
 
     #locations
     def findLocById(self, locID):
@@ -173,7 +177,9 @@ class OrgDAO:
         db.close()
         return emp  
 
-    # Return info on all depts associated with a given location locID
+    ########################################################################
+	# Not used
+	# Return info on all depts associated with a given location locID
     def getAllDeptByLoc(self, locID):
         db = self.getConnection()
         cursor = db.cursor()
@@ -188,7 +194,7 @@ class OrgDAO:
             returnArray.append(resultAsDict)
         db.close()
         return returnArray
-
+		
     # Return info on all employees associated with a given department deptID
     def getAllEmpByDept(self, deptID):
         db = self.getConnection()
@@ -197,18 +203,18 @@ class OrgDAO:
         values = [deptID]
         cursor.execute(sql, values)
         results = cursor.fetchall()
-        
+
         returnArray = []
-        #for i in results:
-        #    returnArray.append(i[0])
         
         for result in results:
             resultAsDict = self.convertEmpToDict(result)
             returnArray.append(resultAsDict)
+
         db.close()
         return returnArray
 
-    #Update DB Functions
+    ##############################################################################################
+	# Update Database Functions
 
     # update locations
     def updateLoc(self, loc):
@@ -259,7 +265,8 @@ class OrgDAO:
         db.close()
         return emp
 
-    # Delete Functions
+    #############################################################################################
+    #Delete Functions
 
     #delete location based on locID
     def deleteLoc(self, locID):
@@ -438,10 +445,7 @@ class OrgDAO:
         returnArray = []
         for i in results:
             returnArray.append(i[0])
-        
-        #for result in results:
-        #    resultAsDict = self.convertEmpToDict(result)
-        #    returnArray.append(resultAsDict)
+
         db.close()
         return returnArray           
 

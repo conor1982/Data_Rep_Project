@@ -1,3 +1,6 @@
+#simply for testing DAO functions. All commented out when happy they worked
+
+
 from DAO import orgDao
 
 #print('ok')

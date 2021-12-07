@@ -2,7 +2,7 @@
 # Please update variable values for each local machine/database names/password/host
 mysql={
    'host':'localhost',
-   'user':'root',
+   'username':'root',
    'password':'connie1!',
    'database':'organisation'
    

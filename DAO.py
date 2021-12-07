@@ -427,10 +427,10 @@ class OrgDAO:
         return returnArray
 
 # Return info on all depts associated with a given location locID
-    def getAllDeptInLoc(self, locID):
+    def getAllLocInDept(self, locID):
         db = self.getConnection()
         cursor = db.cursor()
-        sql = 'select loc_name from departments where location = %s;'
+        sql = 'select location from departments where location = %s;'
         values = [locID]
         cursor.execute(sql, values)
         results = cursor.fetchall()

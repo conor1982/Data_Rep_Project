@@ -16,8 +16,10 @@ CREATE TABLE departments(
     budget INT DEFAULT NULL,
     location INT DEFAULT NULL,
     PRIMARY KEY (deptID),
-    CONSTRAINT FK_locdept FOREIGN KEY (location)
+    CONSTRAINT FK_locdept 
+    FOREIGN KEY (location)
     REFERENCES locations(locID)
+    ON DELETE RESTRICT
     );
 
 CREATE TABLE employees(
@@ -30,6 +32,7 @@ CREATE TABLE employees(
     CONSTRAINT FK_deptEmp
     FOREIGN KEY (dept)
     REFERENCES departments(deptID)
+    ON DELETE RESTRICT
     );
 
 CREATE TABLE users(

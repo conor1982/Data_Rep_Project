@@ -68,8 +68,8 @@ user2 = {'userID':'5',
 }
 
 # Insert Into Test
-returnValue = orgDao.createLocation(loc51)
-print(returnValue)
+#returnValue = orgDao.createLocation(loc51)
+#print(returnValue)
 
 #returnValue = orgDao.createLocation(loc2)
 #print(returnValue)
@@ -109,8 +109,14 @@ print(returnValue)
 #print(returnValue)
 #print("")
 
-#returnvalue = orgDao.getAllDeptInLoc(1)
-#print(returnvalue)
+department = {
+            "dept_name": request.json["dept_name"],
+            "budget": request.json["budget"],
+            "location": request.json["location"]
+        }
+
+returnvalue = orgDao.getAllLocInDept(department)
+print(returnvalue)
 
 #print(returnvalue)
 
@@ -129,6 +135,7 @@ print(returnValue)
 #print(returnValue)
 
 #returnValue = orgDao.deleteLoc(1)
+#print(returnValue)
 #returnValue = orgDao.deleteLoc(8)
 
 #returnValue = orgDao.deleteDept(9)
@@ -150,7 +157,5 @@ print(returnValue)
 #print(returnValue)
 
 
-#returnValue = orgDao.deptIdInEmployees(99)
 
-#print(returnValue)
 

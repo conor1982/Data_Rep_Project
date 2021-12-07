@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
+    
+	<!-- Adapted template from https://github.com/giovannamoeller/login-form -->
+	<!-- CSS -->
+	<style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
 
 * {
@@ -86,7 +89,6 @@ form .input-field:first-child {
 }
 
 
-
 form input[type="submit"] {
     margin-top: 2rem;
     padding: 0.4rem;
@@ -113,45 +115,42 @@ form input[type="submit"] {
     text-align: center;
 }
 
-
-
-
-
-
-    </style>
-    <script src="https://kit.fontawesome.com/1ab94d0eba.js" crossorigin="anonymous"></script>
-    <title>Login Form</title>
+	</style>
+	
+	<script src="https://kit.fontawesome.com/1ab94d0eba.js" crossorigin="anonymous"></script>
+		<title>Login Form</title>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
-<body>
-    <main class="container">
-        <h2>Login to CRUD APP</h2>
-        <form id = "login" action='#' method="post">
-            <div class="input-field">
-                <input type="text" name="name" id="username"
-                    placeholder="Enter Your Username" required>
-                <div class="underline"></div>
-            </div>
-            <div class="input-field">
-                <input type="password" name="password" id="password"
-                    placeholder="Enter Your Password" required>
-                <div class="underline"></div>
-            </div>
+	<body>
+		<main class="container">
+			<h2>Login to CRUD APP</h2>
+				<form id = "login" action='#' method="post">
+					<div class="input-field">
+						<input type="text" name="name" id="username" placeholder="Enter Your Username" required>
+					<div class="underline"></div>
+					</div>
+					
+					<div class="input-field">
+						<input type="password" name="password" id="password" placeholder="Enter Your Password" required>
+					<div class="underline"></div>
+					</div>
 
-            <input id='login-button' type="submit" value="Login">
-            <br>
-            <div>   {{ userMessage }}  </div>
-        </form>
+					<input id='login-button' type="submit" value="Login">
+					<br>
+					
+					<div>   {{ userMessage }}  </div>
+				</form>
         
-</main>
+		</main>
 
-<script>
-    loginForm = document.getElementById("login");
-    host = window.location.origin
-    loginForm.action = host + "/login";
- </script>
+	<script>
+		loginForm = document.getElementById("login");
+		host = window.location.origin
+		loginForm.action = host + "/login";
+	</script>
 
 
-</body>
+	</body>
 </html>

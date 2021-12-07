@@ -155,25 +155,25 @@ def createLoc():
 def createDept():
     if not 'username' in session:
         abort(401)
-    try:
-        if not request.json:
-            abort(400)
-            
-        department = {
+    
+    if not request.json:
+        abort(400)
+
+    department = {
             "dept_name": request.json["dept_name"],
             "budget": request.json["budget"],
             "location": request.json["location"]
         }
-        return jsonify(orgDao.createDepartment(department))
+    try:
+        new_dept = orgDao.createDepartment(department)
+        return jsonify(new_dept)
+    except:
+        app.logger.info('LocID does not Exist')
+        return jsonify({"done":False})
+
     
-    #except mysql.connector.IntegrityError as err:
-        #return err
-
-    except Exception as e:
-        e = 'Cannot add or update a child row\nLocation ID does not Exist\nForeign key constraint fails'
-        return str(e)
-
-
+  
+    
 #create employee
 #curl
 #curl -X POST -d "{\"name\":\"test\", \"title\":\"testtitle\",\"salary\":99999, \"dept\":2}" -H "Content-Type:application/json" http://127.0.0.1:5000/employees
@@ -181,24 +181,23 @@ def createDept():
 def createEmp():
     if not 'username' in session:
         abort(401)
-    try:
-        if not request.json:
-            abort(400)
-            
-        employee = {
+    
+    if not request.json:
+        abort(400)
+        
+    employee = {
             "name": request.json["name"],
             "title": request.json["title"],
             "salary":request.json["salary"],
             "dept": request.json["dept"]
         }
-        return jsonify(orgDao.createEmployee(employee))
-
-    #except mysql.connector.IntegrityError as err:
-        #return err
+    try:
+        new_emp = orgDao.createEmployee(employee)
+        return jsonify(new_emp)
+    except:
+        app.logger.info('DeptID does not Exist')
+        return jsonify({"done":False})
     
-    except Exception as e:
-        e = 'Cannot add or update a child row\nLocation ID does not Exist\nForeign key constraint fails'
-        return str(e)
 
 #create user
 #curl
@@ -227,9 +226,15 @@ def createUser():
 def updateLoc(locID):
     if not 'username' in session:
         abort(401)
+    if not request.json:
+        abort(400)
+
     foundLoc = orgDao.findLocById(locID)
+
     if foundLoc == {}:
-        return jsonify({}), 404
+        app.logger.info('LocID %s not found', locID)
+        return jsonify({}),404
+
     currentLoc = foundLoc
     if 'loc_name' in request.json:
         currentLoc['loc_name'] = request.json['loc_name']
@@ -246,25 +251,32 @@ def updateLoc(locID):
 # curl -X PUT -d "{\"dept_name\":\"mad crowd\"}" -H "content-type:application/json" http://127.0.0.1:5000/departments/59
 @app.route('/departments/<int:deptID>', methods=['PUT'])
 def updateDept(deptID):
-    try: 
-        if not 'username' in session:
-            abort(401)
-        foundDept = orgDao.findDeptById(deptID)
-        if foundDept == {}:
-            return jsonify({}), 404
-        currentDept = foundDept
-        if 'dept_name' in request.json:
-            currentDept['dept_name'] = request.json['dept_name']
-        if 'budget' in request.json:
-            currentDept['budget'] = request.json['budget']
-        if 'location' in request.json:
-            currentDept['location'] = request.json['location']
-        orgDao.updateDept(currentDept)
+    if not 'username' in session:
+        abort(401)
 
-        return jsonify(currentDept)
-    
-    except Exception as e:
-        return "LocID does not Exist"
+    if not request.json:
+      abort(400)
+
+    foundDept = orgDao.findDeptById(deptID)
+    if foundDept == {}:
+        app.logger.info('DepID %s not found', deptID)
+        return jsonify({}),404
+        
+    currentDept = foundDept
+
+    if 'dept_name' in request.json:
+        currentDept['dept_name'] = request.json['dept_name']
+    if 'budget' in request.json:
+        currentDept['budget'] = request.json['budget']
+    if 'location' in request.json:
+        locID = request.json['location']
+        checkLoc = orgDao.findLocById(locID)
+
+        if checkLoc == {}:
+            return jsonify({}),404
+        currentDept['location'] = locID
+    orgDao.updateDept(currentDept)
+    return jsonify(currentDept)
 
 # update employees
 # curl
@@ -273,20 +285,26 @@ def updateDept(deptID):
 def updateEmp(empID):
     if not 'username' in session:
         abort(401)
+    if not request.json:
+        abort(400)
     foundEmp = orgDao.findEmpById(empID)
     if foundEmp == {}:
+        app.logger.info('EmpID %s not found', empID)
         return jsonify({}), 404
     currentEmp = foundEmp
     if 'name' in request.json:
         currentEmp['name'] = request.json['name']
-    if 'title' in request.json:
+    if 'address' in request.json:
         currentEmp['title'] = request.json['title']
-    if 'salary' in request.json:
+    if 'title' in request.json:
         currentEmp['salary'] = request.json['salary']
     if 'dept' in request.json:
-        currentEmp['dept'] = request.json['dept']
+        deptID = request.json['dept']
+        checkDept = orgDao.findDeptById(deptID)
+        if checkDept == {}:
+            return jsonify({}), 404
+        currentEmp['dept'] = deptID
     orgDao.updateEmp(currentEmp)
-
     return jsonify(currentEmp)
 
 # update users
@@ -320,17 +338,16 @@ def deleteLoc(locID):
         abort(401)
     foundLoc = orgDao.findLocById(locID)
     if foundLoc == {}:
-      return jsonify({"ID Does not Exist": False}), 404
-
-    foundLocInDept = orgDao.getAllDeptInLoc(locID)
+        app.logger.info('LocID %s not found', locID)
+        return jsonify({"done": False}), 404
+    
     try:
-        if locID in foundLocInDept:
-            return jsonify({"Can't Delete Foreign Key Constraint": False})
-        if locID not in foundLocInDept:
-            orgDao.deleteLoc(locID)
-            return jsonify({"done": True})
-    except Exception as e:
-        return jsonify({"done": True})
+        orgDao.deleteLoc(locID)
+        app.logger.info('Deleted loc %s', foundLoc)
+        return jsonify({"done":True})
+    except:
+        app.logger.info('Cannot delete LocID %s', locID)
+        return jsonify({"done":False})
 
 # delete department
 #curl
@@ -339,22 +356,21 @@ def deleteLoc(locID):
 def deleteDept(deptID):
     if not 'username' in session:
         abort(401)
+    
     foundDept = orgDao.findDeptById(deptID)
+    
     if foundDept == {}:
-        
-      return jsonify({"ID Does not Exist": False}), 404
+        app.logger.info('DeptID %s not found', deptID)
+        return jsonify({"done": False}), 404
 
-    foundDeptInEmp = orgDao.getAllEmpInDept(deptID)
     try:
-        if deptID in foundDeptInEmp:
-            return jsonify({"Can't Delete Foreign Key Constraint": False})
-        if deptID not in foundDeptInEmp:
-            orgDao.deleteDept(deptID)
-            return jsonify({"done": True})
-    except Exception as e:
-        return jsonify({"done": True})
+        orgDao.deleteDept(deptID)
+        app.logger.info('Deleted dept %s', foundDept)
+        return jsonify({"done":True})
+    except:
+        app.logger.info('Cannot delete deptID %s', deptID)
+        return jsonify({"done":False})
 
-   
 # delete employee
 #curl
 # curl -X DELETE http://127.0.0.1:5000/employees/23
@@ -362,8 +378,13 @@ def deleteDept(deptID):
 def deleteEmployee(empID):
     if not 'username' in session:
         abort(401)
-    orgDao.deleteEmp(empID)
 
+    foundEmp = orgDao.findEmpById(empID)
+    if foundEmp == {}:
+        app.logger.info('EmpID %s not found', empID)
+        return jsonify({"done": False}), 404
+    
+    orgDao.deleteEmp(empID)
     return jsonify({"done": True})
 
 # delete user

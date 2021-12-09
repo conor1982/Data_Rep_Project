@@ -3,7 +3,7 @@
 **GMIT Lecturer:** Andrew Beatty
 **Student:** Conor O'Riordan G00387832@gmit.ie
 
-This repository contains all of the documentation for my project for the Data Representation module of the GMIT Data Analytics program. The project is a simple organisation manamgement system that could be used by a small copany to manage locations, departments and employees.
+This repository contains all of the documentation for my project for the Data Representation module of the GMIT Data Analytics program. The project is a simple organisation management system that could be used by a small company to manage locations, departments and employees.
 
 ## Overview of the project
 
@@ -82,8 +82,12 @@ Allowable "user : password" combinations are:
 1. Clone the repository. `git clone https://github.com/conor1982/Data_Rep_Project`
 2. Create a MySQL database called `organisation` with the initdb.sql file.
 3. Edit the `dbconfig.py` file adding your MySQL host, database, user and password information.
-4. Create a virtual environment, and use `pip` to install the dependancies from the `requirements.txt` file.
-5. Set `server.py` as the FLASK_APP and run flask.
-6. Using a web browser access `http://127.0.0.1:5000/` (assuming you are using the local host to serve the website)
+4. Run `server.py` from your command line locally and access via `http://127.0.0.1:5000/`
+
+**OR**
+
+5. Create a virtual environment, and use `pip` to install the dependancies from the `requirements.txt` file.
+6. Set `server.py` as the FLASK_APP and run flask.
+7. Using a web browser access `http://127.0.0.1:5000/` (assuming you are using the local host to serve the website)
 
 

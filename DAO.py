@@ -125,12 +125,17 @@ class OrgDAO:
     def getAllEmps(self):
         db = self.getConnection()
         cursor = db.cursor()
-        sql = "select * from employees"
+        
+        sql = "select e.*, d.dept_name from employees as e inner join departments as d on e.dept = d.deptID "
+        #sql = "select * from employees"
         cursor.execute(sql)
         results = cursor.fetchall()
+        
         returnArray = []
         for result in results:
-            resultAsDict = self.convertEmpToDict(result)
+            resultAsDict = self.convertEmpToDictGetAll(result)
+            #resultAsDict = self.convertEmpToDict(result)
+
             returnArray.append(resultAsDict)
         db.close()
 
@@ -164,16 +169,31 @@ class OrgDAO:
         db.close()
         return dep
      
+    #deparmtents
+    def findDeptNameById(self, deptID):
+        db = self.getConnection()
+        cursor = db.cursor()
+        sql = 'select name from departments where deptID = %s'
+        values = [deptID]
+        cursor.execute(sql, values)
+        result = cursor.fetchone()
+        dep = self.convertDeptToDict(result)
+        db.close()
+        return dep
 
     #employees
     def findEmpById(self, empID):
         db = self.getConnection()
         cursor = db.cursor()
-        sql = 'select * from employees where empID = %s'
+        
+        #sql = "select * from employees where empID = %s"
+        sql = 'select e.*, d.dept_name from employees as e inner join departments as d on e.dept = d.deptID where e.empID = %s'
         values = [empID]
         cursor.execute(sql, values)
         result = cursor.fetchone()
-        emp = self.convertEmpToDict(result)
+        emp = self.convertEmpToDictGetAll(result)
+        #emp = self.convertEmpToDict(result)
+
         db.close()
         return emp  
 
@@ -404,6 +424,17 @@ class OrgDAO:
                 emp[colName] = value
         return emp
 
+    #employess to dict
+    def convertEmpToDictGetAll(self,result):
+        colnames = ['empID','name', 'title', 'salary','dept','dept_name']
+        emp = {}
+
+        if result:
+            for i, colName in enumerate(colnames):
+                value = result[i]
+                emp[colName] = value
+        return emp
+
     # Function to convert user into Dictionary/JSON
     def convertUserToDict(self, result):
         colnames = ['userID', 'name', 'password']
@@ -450,6 +481,7 @@ class OrgDAO:
         return returnArray           
 
 orgDao = OrgDAO()
+
 
 
 

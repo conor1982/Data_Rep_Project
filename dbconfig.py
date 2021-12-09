@@ -4,6 +4,7 @@ mysql={
    'host':'localhost',
    'username':'root',
    'password':'connie1!',
-   'database':'organisation'
+   'database':'organisation',
+   
    
 }

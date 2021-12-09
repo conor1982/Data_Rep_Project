@@ -3,7 +3,7 @@
 
 from DAO import orgDao
 
-#print('ok')
+
 
 # locations for test
 loc51 = {'loc_name': 'kerry',
@@ -90,21 +90,24 @@ user2 = {'userID':'5',
 #returnValue = orgDao.getAllDepts()
 #print(returnValue)
 #print("")
-#returnValue = orgDao.getAllEmps()
-#print(returnValue)
+returnValue1 = orgDao.findDeptNameById(2)
+print(returnValue1)
+
+print("")
+print("")
 
 # contents by ID
 #returnValue = orgDao.findLocById(2)
 #print("find Loc By Id")
-#print(returnValue)
-#print("")
+#clsprint(returnValue)
+#print("")#
 #returnValue = orgDao.findDeptIDinEmp(4)
 
 #print(returnValue)
 #print("")
-#returnValue = orgDao.findEmpById(12)
+returnValue = orgDao.findEmpById(9)
 #print("find Emp By Id")
-#print(returnValue)
+print(returnValue)
 
 # depts by location ID
 #returnValue = orgDao.getAllDeptByLoc(4)
@@ -112,14 +115,9 @@ user2 = {'userID':'5',
 #print(returnValue)
 #print("")
 
-department = {
-            "dept_name": request.json["dept_name"],
-            "budget": request.json["budget"],
-            "location": request.json["location"]
-        }
 
-returnvalue = orgDao.getAllLocInDept(department)
-print(returnvalue)
+#returnvalue = orgDao.getAllLocInDept(department)
+#print(returnvalue)
 
 #print(returnvalue)
 
@@ -149,8 +147,7 @@ print(returnvalue)
 #print(returnValue)
 #print("")
 #print('user id')
-#returnValue = orgDao.findUserByID(1)
-#print(returnValue)
+#returnValue = orgDao.findEmpById(emp3)
 #print("")
 #print('new user')
 #returnValue = orgDao.createUser(user1)

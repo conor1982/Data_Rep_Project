@@ -109,6 +109,12 @@ def findDeptById(deptID):
         abort(401)
     return jsonify(orgDao.findDeptById(deptID))
 
+@app.route('/departmentname/<int:deptID>')
+def findDeptNameById(deptID):
+    if not 'username' in session:
+        abort(401)
+    return jsonify(orgDao.findDeptById(deptID))
+
 #employees
 #curl
 #curl http://127.0.0.1:5000/employees/5
@@ -399,4 +405,4 @@ def deleteUser(userID):
     return jsonify({"done":True})
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
